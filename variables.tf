@@ -9,3 +9,8 @@ variable "lb-cidr" {
   default     = []
   description = "CIDR range for Load Balancer Tier"
 }
+variable "app-cidr" {
+  type        = list(string)
+  default     = []
+  description = "CIDR range for Load Balancer Tier"
+}

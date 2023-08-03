@@ -12,21 +12,26 @@ data "aws_availability_zones" "azs" {
 }
 
 locals {
-  azs = data.aws_availability_zones.azs
+  azs = data.aws_availability_zones.azs.names
 }
 
 resource "aws_subnet" "lb" {
-  vpc_id     = aws_vpc.dev-vpc.id
-  cidr_block = var.lb-cidr[count.index]
-  availability_zone = local.azs.names[count.index]
-  count = length(var.lb-cidr)  
+  vpc_id            = aws_vpc.dev-vpc.id
+  cidr_block        = var.lb-cidr[count.index]
+  availability_zone = local.azs[count.index]
+  count             = length(var.lb-cidr)
   tags = {
     Name = "Load Balancer Tier Public Subnet ${count.index + 1}"
     Env  = "Dev"
   }
-  lifecycle {
-   
-  }
 }
 
-
+resource "aws_subnet" "app" {
+  vpc_id            = aws_vpc.dev-vpc.id
+  cidr_block        = var.app-cidr[count.index]
+  availability_zone = local.azs[count.index]
+  count             = length(var.app-cidr)
+  tags = {
+    Name = "App Subnet ${count.index + 1}"
+  }
+}
