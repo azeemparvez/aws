@@ -4,3 +4,8 @@ variable "vpc-cidr" {
   description = "VPC CIDR block"
 }
 
+variable "internet" {
+  type = string
+  default = ""
+  description = "Internet IP"
+}
